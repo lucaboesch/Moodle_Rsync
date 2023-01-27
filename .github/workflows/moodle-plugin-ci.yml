@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     services:
       postgres:
@@ -27,8 +27,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["7.2", "7.3", "7.4"]
-        moodle-branch: ["MOODLE_311_STABLE", "MOODLE_400_STABLE", "master"]
+        php: ["7.4", "8.0", "8.1"]
+        moodle-branch: ["MOODLE_400_STABLE", "MOODLE_401_STABLE", "master"]
         database: [pgsql, mariadb]
 
     steps:
