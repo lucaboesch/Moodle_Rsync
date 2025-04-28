@@ -275,7 +275,8 @@ class local_rsync_section extends external_api {
             throw new moodle_exception('cannotaddcoursemodule');
         }
 
-        $modules = get_array_of_activities($courseid);
+        $course = get_course($courseid);
+        $modules = course_modinfo::get_array_of_activities($course);
 
         foreach ($modules as $module) {
             if ($module->section == $sectionnumber && $module->name == $filename) {
@@ -457,7 +458,8 @@ class local_rsync_section extends external_api {
             throw new moodle_exception('cannotaddcoursemodule');
         }
 
-        $modules = get_array_of_activities($courseid);
+        $course = get_course($courseid);
+        $modules = course_modinfo::get_array_of_activities($course);
 
         $foundmodule = false;
 
@@ -518,7 +520,8 @@ class local_rsync_section extends external_api {
             throw new moodle_exception('cannotaddcoursemodule');
         }
 
-        $modules = get_array_of_activities($courseid);
+        $course = get_course($courseid);
+        $modules = course_modinfo::get_array_of_activities($course);
 
         foreach ($modules as $module) {
             if ($module->section == $sectionnumber) {
@@ -566,7 +569,8 @@ class local_rsync_section extends external_api {
             throw new moodle_exception('cannotaddcoursemodule');
         }
 
-        $modules = get_array_of_activities($courseid);
+        $course = get_course($courseid);
+        $modules = course_modinfo::get_array_of_activities($course);
 
         foreach ($modules as $module) {
             if ($module->section == $sectionnumber && $module->name == $modulename) {
@@ -621,7 +625,8 @@ class local_rsync_section extends external_api {
             throw new moodle_exception('cannotaddcoursemodule');
         }
 
-        $modules = get_array_of_activities($courseid);
+        $course = get_course($courseid);
+        $modules = course_modinfo::get_array_of_activities($course);
 
         foreach ($modules as $module) {
             if ($module->section == $sectionnumber) {
@@ -679,7 +684,8 @@ class local_rsync_section extends external_api {
         }
 
         // Get all modules of course.
-        $modules = get_array_of_activities($courseid);
+        $course = get_course($courseid);
+        $modules = course_modinfo::get_array_of_activities($course);
 
         // Loop through them.
         foreach ($modules as $module) {
@@ -801,7 +807,8 @@ class local_rsync_section extends external_api {
         }
 
         // Get all modules of course.
-        $modules = get_array_of_activities($courseid);
+        $course = get_course($courseid);
+        $modules = course_modinfo::get_array_of_activities($course);
 
         // Loop through them.
         foreach ($modules as $module) {
