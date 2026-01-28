@@ -27,8 +27,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->libdir . '/completionlib.php');
-require_once($CFG->dirroot. '/course/lib.php');
-require_once($CFG->dirroot. '/course/modlib.php');
+require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->dirroot . '/course/modlib.php');
 require_once($CFG->dirroot . '/files/externallib.php');
 require_once($CFG->dirroot . '/mod/resource/lib.php');
 require_once($CFG->dirroot . '/mod/resource/locallib.php');
@@ -39,7 +39,6 @@ require_once($CFG->dirroot . "/backup/util/includes/restore_includes.php");
  * Class local_rsync_course
  */
 class local_rsync_course extends external_api {
-
     /**
      * Returns description of method parameters
      * @return external_function_parameters
@@ -74,9 +73,12 @@ class local_rsync_course extends external_api {
     public static function change_course_visibility($courseid, $visibility) {
         global $USER;
 
-        $params = self::validate_parameters(self::change_course_visibility_parameters(),
-        ['courseid' => $courseid,
-            'visibility' => $visibility, ]);
+        $params = self::validate_parameters(
+            self::change_course_visibility_parameters(),
+            ['courseid' => $courseid,
+            'visibility' => $visibility,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -121,9 +123,12 @@ class local_rsync_course extends external_api {
     public static function copy_course($courseid, $newcourseid) {
         global $USER, $DB, $CFG;
 
-        $params = self::validate_parameters(self::copy_course_parameters(),
-        ['courseid' => $courseid,
-            'newcourseid' => $newcourseid, ]);
+        $params = self::validate_parameters(
+            self::copy_course_parameters(),
+            ['courseid' => $courseid,
+            'newcourseid' => $newcourseid,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -144,8 +149,14 @@ class local_rsync_course extends external_api {
 
         // Backup.
         $course = $DB->get_record('course', ['id' => $courseid]);
-        $bc = new backup_controller(backup::TYPE_1COURSE, $course->id, backup::FORMAT_MOODLE, backup::INTERACTIVE_YES,
-            backup::MODE_GENERAL, $USER->id);
+        $bc = new backup_controller(
+            backup::TYPE_1COURSE,
+            $course->id,
+            backup::FORMAT_MOODLE,
+            backup::INTERACTIVE_YES,
+            backup::MODE_GENERAL,
+            $USER->id
+        );
 
         $format = $bc->get_format();
         $type = $bc->get_type();
@@ -161,7 +172,7 @@ class local_rsync_course extends external_api {
         $results = $bc->get_results();
         $file = $results['backup_destination'];
 
-        $filepath = $CFG->dataroot.'/temp/'.$filename;
+        $filepath = $CFG->dataroot . '/temp/' . $filename;
 
         if ($file->copy_content_to($filepath)) {
             $file->delete();
@@ -179,12 +190,17 @@ class local_rsync_course extends external_api {
         $fp->extract_to_pathname($filepath, $path);
 
         try {
-            $rc = new restore_controller($backupdir, $newcourseid, backup::INTERACTIVE_NO, backup::MODE_GENERAL, $USER->id,
-                backup::TARGET_EXISTING_DELETING);
+            $rc = new restore_controller(
+                $backupdir,
+                $newcourseid,
+                backup::INTERACTIVE_NO,
+                backup::MODE_GENERAL,
+                $USER->id,
+                backup::TARGET_EXISTING_DELETING
+            );
             $rc->execute_precheck();
             $rc->execute_plan();
             $rc->destroy();
-
         } catch (Exception $e) {
             fulldelete($path);
             throw new moodle_exception($e->getMessage());

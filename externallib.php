@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->libdir . '/completionlib.php');
-require_once($CFG->dirroot. '/course/modlib.php');
+require_once($CFG->dirroot . '/course/modlib.php');
 require_once($CFG->dirroot . '/files/externallib.php');
 require_once($CFG->dirroot . '/mod/resource/lib.php');
 require_once($CFG->dirroot . '/mod/resource/locallib.php');
@@ -35,7 +35,6 @@ require_once($CFG->dirroot . '/mod/resource/locallib.php');
  * Class local_rsync_external
  */
 class local_rsync_external extends external_api {
-
     /**
      * Returns description of method parameters
      * @return external_function_parameters
@@ -44,8 +43,12 @@ class local_rsync_external extends external_api {
         return new external_function_parameters(
             ['filename' => new external_value(PARAM_TEXT, 'A file in a user\'s \'private files\', ' .
                   'default in / when no filepath provided', VALUE_REQUIRED),
-                  'filepath' => new external_value(PARAM_TEXT, 'A path to a file in a user\'s \'private files\'', VALUE_DEFAULT,
-                      '/'),
+                  'filepath' => new external_value(
+                      PARAM_TEXT,
+                      'A path to a file in a user\'s \'private files\'',
+                      VALUE_DEFAULT,
+                      '/'
+                  ),
                   'courseid' => new external_value(PARAM_INT, 'The course id the file is to be handeled in', VALUE_REQUIRED),
                   'sectionnumber' => new external_value(PARAM_INT, 'In which section the file is to be added', VALUE_REQUIRED),
                   'displayname' => new external_value(PARAM_TEXT, 'The name to display for the file', VALUE_DEFAULT, ''),
@@ -68,12 +71,15 @@ class local_rsync_external extends external_api {
 
         // Parameter validation.
         // REQUIRED.
-        $params = self::validate_parameters(self::create_file_resource_parameters(),
+        $params = self::validate_parameters(
+            self::create_file_resource_parameters(),
             ['filename' => $filename,
                 'filepath' => $filepath,
                 'courseid' => $courseid,
                 'sectionnumber' => $sectionnumber,
-                'displayname' => $displayname, ]);
+            'displayname' => $displayname,
+            ]
+        );
 
         // For sure: action.
         // Maybe: alias display intro printintro popupwidth popupheight showsize showtype showdate.

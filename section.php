@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/externallib.php');
-require_once($CFG->dirroot. '/course/lib.php');
+require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
 require_once($CFG->dirroot . "/backup/util/includes/restore_includes.php");
 
@@ -34,7 +34,6 @@ require_once($CFG->dirroot . "/backup/util/includes/restore_includes.php");
  * Class local_rsync_section
  */
 class local_rsync_section extends external_api {
-
     /**
      * Returns description of method parameters
      * @return external_function_parameters
@@ -120,8 +119,11 @@ class local_rsync_section extends external_api {
         return new external_function_parameters(
             ['courseid' => new external_value(PARAM_INT, 'The course id', VALUE_REQUIRED),
                   'sectionnumber' => new external_value(PARAM_INT, 'In which section the files should be deleted', VALUE_REQUIRED),
-                  'targetsectionnumber' => new external_value(PARAM_INT, 'In which section the files should be deleted',
-                      VALUE_REQUIRED),
+                  'targetsectionnumber' => new external_value(
+                      PARAM_INT,
+                      'In which section the files should be deleted',
+                      VALUE_REQUIRED
+                  ),
                   'modulename' => new external_value(PARAM_TEXT, 'In which section the files should be deleted', VALUE_REQUIRED),
             ]
         );
@@ -134,10 +136,16 @@ class local_rsync_section extends external_api {
     public static function move_all_modules_to_other_section_parameters() {
         return new external_function_parameters(
             ['courseid' => new external_value(PARAM_INT, 'The course id', VALUE_REQUIRED),
-                  'sectionnumber' => new external_value(PARAM_INT, 'In which section the modules should be deleted',
-                      VALUE_REQUIRED),
-                  'targetsectionnumber' => new external_value(PARAM_INT, 'In which section the modules should be moved to',
-                      VALUE_REQUIRED),
+                  'sectionnumber' => new external_value(
+                      PARAM_INT,
+                      'In which section the modules should be deleted',
+                      VALUE_REQUIRED
+                  ),
+                  'targetsectionnumber' => new external_value(
+                      PARAM_INT,
+                      'In which section the modules should be moved to',
+                      VALUE_REQUIRED
+                  ),
             ]
         );
     }
@@ -160,12 +168,21 @@ class local_rsync_section extends external_api {
     public static function copy_module_parameters() {
         return new external_function_parameters(
             ['courseid' => new external_value(PARAM_INT, 'The course id', VALUE_REQUIRED),
-                  'sectionnumber' => new external_value(PARAM_INT, 'In which section the modules should be deleted',
-                            VALUE_REQUIRED),
-                  'targetsectionnumber' => new external_value(PARAM_INT, 'In which section the modules should be copied to',
-                      VALUE_REQUIRED),
-                  'modulename' => new external_value(PARAM_TEXT, 'Name of the module to be copied',
-                      VALUE_REQUIRED),
+                  'sectionnumber' => new external_value(
+                      PARAM_INT,
+                      'In which section the modules should be deleted',
+                      VALUE_REQUIRED
+                  ),
+                  'targetsectionnumber' => new external_value(
+                      PARAM_INT,
+                      'In which section the modules should be copied to',
+                      VALUE_REQUIRED
+                  ),
+                  'modulename' => new external_value(
+                      PARAM_TEXT,
+                      'Name of the module to be copied',
+                      VALUE_REQUIRED
+                  ),
             ]
         );
     }
@@ -205,10 +222,13 @@ class local_rsync_section extends external_api {
     public static function set_section_visibilty($courseid, $sectionnumber, $visibility) {
         global $USER;
 
-        $params = self::validate_parameters(self::set_section_visibilty_parameters(),
+        $params = self::validate_parameters(
+            self::set_section_visibilty_parameters(),
             ['courseid' => $courseid,
                 'sectionnumber' => $sectionnumber,
-                'visibility' => $visibility, ]);
+            'visibility' => $visibility,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -237,9 +257,13 @@ class local_rsync_section extends external_api {
             $visibilitytext = 'unhidden';
         }
 
-        return get_string('successmessage_section_visibility', 'local_rsync',
+        return get_string(
+            'successmessage_section_visibility',
+            'local_rsync',
             ['visibility' => $visibilitytext, 'sectionnumber' => $sectionnumber, 'courseid' => $courseid,
-                'username' => fullname($USER), ]);
+            'username' => fullname($USER),
+            ]
+        );
     }
 
     /**
@@ -253,10 +277,13 @@ class local_rsync_section extends external_api {
     public static function remove_file_from_section($courseid, $sectionnumber, $filename) {
         global $USER;
 
-        $params = self::validate_parameters(self::remove_file_from_section_parameters(),
+        $params = self::validate_parameters(
+            self::remove_file_from_section_parameters(),
             ['courseid' => $courseid,
                 'sectionnumber' => $sectionnumber,
-                'filename' => $filename, ]);
+            'filename' => $filename,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -300,10 +327,13 @@ class local_rsync_section extends external_api {
     public static function rename_section($courseid, $sectionnumber, $sectionname) {
         global $USER, $DB;
 
-        $params = self::validate_parameters(self::rename_section_parameters(),
-        ['courseid' => $courseid,
+        $params = self::validate_parameters(
+            self::rename_section_parameters(),
+            ['courseid' => $courseid,
             'sectionnumber' => $sectionnumber,
-            'sectionname' => $sectionname, ]);
+            'sectionname' => $sectionname,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -341,9 +371,12 @@ class local_rsync_section extends external_api {
     public static function remove_section($courseid, $sectionnumber) {
         global $USER, $DB;
 
-        $params = self::validate_parameters(self::remove_section_parameters(),
-        ['courseid' => $courseid,
-            'sectionnumber' => $sectionnumber, ]);
+        $params = self::validate_parameters(
+            self::remove_section_parameters(),
+            ['courseid' => $courseid,
+            'sectionnumber' => $sectionnumber,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -387,9 +420,12 @@ class local_rsync_section extends external_api {
     public static function remove_all_sections($courseid) {
         global $USER;
 
-        $params = self::validate_parameters(self::remove_section_parameters(),
-        ['courseid' => $courseid,
-            'sectionnumber' => $sectionnumber, ]);
+        $params = self::validate_parameters(
+            self::remove_section_parameters(),
+            ['courseid' => $courseid,
+            'sectionnumber' => $sectionnumber,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -435,11 +471,14 @@ class local_rsync_section extends external_api {
     public static function set_file_visibility($courseid, $sectionnumber, $filename, $visibility) {
         global $USER;
 
-        $params = self::validate_parameters(self::set_file_visibility_parameters(),
-        ['courseid' => $courseid,
+        $params = self::validate_parameters(
+            self::set_file_visibility_parameters(),
+            ['courseid' => $courseid,
             'sectionnumber' => $sectionnumber,
             'filename' => $filename,
-            'visibility' => $visibility, ]);
+            'visibility' => $visibility,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -478,13 +517,22 @@ class local_rsync_section extends external_api {
         }
 
         if ($foundmodule) {
-            return get_string('successmessage_section_file_visibility', 'local_rsync',
+            return get_string(
+                'successmessage_section_file_visibility',
+                'local_rsync',
                 ['visibility' => $visibilitytext, 'filename' => $filename, 'sectionnumber' => $sectionnumber,
-                    'courseid' => $courseid, 'username' => fullname($USER), ]);
+                'courseid' => $courseid,
+                'username' => fullname($USER),
+                ]
+            );
         } else {
-            return get_string('errormessage_section_file_visibility', 'local_rsync',
+            return get_string(
+                'errormessage_section_file_visibility',
+                'local_rsync',
                 ['filename' => $filename, 'sectionnumber' => $sectionnumber, 'courseid' => $courseid,
-                    'username' => fullname($USER), ]);
+                'username' => fullname($USER),
+                ]
+            );
         }
     }
 
@@ -499,9 +547,12 @@ class local_rsync_section extends external_api {
     public static function remove_all_files_from_section($courseid, $sectionnumber) {
         global $USER;
 
-        $params = self::validate_parameters(self::remove_all_files_from_section_parameters(),
-        ['courseid' => $courseid,
-            'sectionnumber' => $sectionnumber, ]);
+        $params = self::validate_parameters(
+            self::remove_all_files_from_section_parameters(),
+            ['courseid' => $courseid,
+            'sectionnumber' => $sectionnumber,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -529,8 +580,11 @@ class local_rsync_section extends external_api {
             }
         }
 
-        return get_string('successmessage_section_file_removal', 'local_rsync',
-            ['sectionnumber' => $sectionnumber, 'courseid' => $courseid, 'username' => fullname($USER)]);
+        return get_string(
+            'successmessage_section_file_removal',
+            'local_rsync',
+            ['sectionnumber' => $sectionnumber, 'courseid' => $courseid, 'username' => fullname($USER)]
+        );
     }
 
     /**
@@ -546,11 +600,14 @@ class local_rsync_section extends external_api {
     public static function move_file_to_other_section($courseid, $sectionnumber, $targetsectionnumber, $modulename) {
         global $USER;
 
-        $params = self::validate_parameters(self::move_file_to_other_section_parameters(),
-        ['courseid' => $courseid,
-        'sectionnumber' => $sectionnumber,
-        'targetsectionnumber' => $targetsectionnumber,
-        'modulename' => $modulename, ]);
+        $params = self::validate_parameters(
+            self::move_file_to_other_section_parameters(),
+            ['courseid' => $courseid,
+            'sectionnumber' => $sectionnumber,
+            'targetsectionnumber' => $targetsectionnumber,
+            'modulename' => $modulename,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -582,9 +639,14 @@ class local_rsync_section extends external_api {
                 $sectioninfo = $coursemodinfo->get_section_info($targetsectionnumber);
                 moveto_module($mod, $sectioninfo);
 
-                return get_string('successmessage_section_module_movement', 'local_rsync',
+                return get_string(
+                    'successmessage_section_module_movement',
+                    'local_rsync',
                     ['modulename' => $modulename, 'sectionid' => $sectionnumber, 'targetsectionid' => $targetsectionnumber,
-                        'courseid' => $courseid, 'username' => fullname($USER), ]);
+                    'courseid' => $courseid,
+                    'username' => fullname($USER),
+                    ]
+                );
             }
         }
 
@@ -603,10 +665,13 @@ class local_rsync_section extends external_api {
     public static function move_all_modules_to_other_section($courseid, $sectionnumber, $targetsectionnumber) {
         global $USER;
 
-        $params = self::validate_parameters(self::move_all_modules_to_other_section_parameters(),
-        ['courseid' => $courseid,
-        'sectionnumber' => $sectionnumber,
-        'targetsectionnumber' => $targetsectionnumber, ]);
+        $params = self::validate_parameters(
+            self::move_all_modules_to_other_section_parameters(),
+            ['courseid' => $courseid,
+            'sectionnumber' => $sectionnumber,
+            'targetsectionnumber' => $targetsectionnumber,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -637,9 +702,13 @@ class local_rsync_section extends external_api {
             }
         }
 
-        return get_string('successmessage_section_all_module_movement', 'local_rsync',
+        return get_string(
+            'successmessage_section_all_module_movement',
+            'local_rsync',
             ['sectionid' => $sectionnumber, 'targetsectionid' => $targetsectionnumber, 'courseid' => $courseid,
-                'username' => fullname($USER), ]);
+            'username' => fullname($USER),
+            ]
+        );
     }
 
     /**
@@ -657,9 +726,13 @@ class local_rsync_section extends external_api {
         global $USER, $DB;
 
         // Check parameters.
-        $params = self::validate_parameters(self::copy_module_parameters(),
-        ['courseid' => $courseid, 'sectionnumber' => $sectionnumber,
-              'targetsectionnumber' => $targetsectionnumber, 'modulename' => $modulename, ]);
+        $params = self::validate_parameters(
+            self::copy_module_parameters(),
+            ['courseid' => $courseid, 'sectionnumber' => $sectionnumber,
+            'targetsectionnumber' => $targetsectionnumber,
+            'modulename' => $modulename,
+            ]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -692,15 +765,27 @@ class local_rsync_section extends external_api {
             // If module section and name is the same as given.
             if ($module->name == $modulename && $module->section == $sectionnumber) {
                 // Create a backup.
-                $bc = new backup_controller(backup::TYPE_1ACTIVITY, $module->cm,
-                          backup::FORMAT_MOODLE, backup::INTERACTIVE_NO, backup::MODE_IMPORT, $USER->id);
-                $backupid       = $bc->get_backupid();;
+                $bc = new backup_controller(
+                    backup::TYPE_1ACTIVITY,
+                    $module->cm,
+                    backup::FORMAT_MOODLE,
+                    backup::INTERACTIVE_NO,
+                    backup::MODE_IMPORT,
+                    $USER->id
+                );
+                $backupid       = $bc->get_backupid();
                 $bc->execute_plan();
                 $bc->destroy();
 
                 // And restore it.
-                $rc = new restore_controller($backupid, $courseid, backup::INTERACTIVE_NO,
-                            backup::MODE_IMPORT, $USER->id, backup::TARGET_CURRENT_ADDING);
+                $rc = new restore_controller(
+                    $backupid,
+                    $courseid,
+                    backup::INTERACTIVE_NO,
+                    backup::MODE_IMPORT,
+                    $USER->id,
+                    backup::TARGET_CURRENT_ADDING
+                );
                 $cmcontext = context_module::instance($module->cm);
                 $rc->execute_precheck();
                 $rc->execute_plan();
@@ -742,10 +827,14 @@ class local_rsync_section extends external_api {
         }
 
         // Return the success message.
-        return get_string('successmessage_copy_module', 'local_rsync',
+        return get_string(
+            'successmessage_copy_module',
+            'local_rsync',
             ['modulename' => $modulename, 'section' => $sectionnumber,
                   'targetsection' => $targetsectionnumber, 'courseid' => $courseid,
-                  'username' => fullname($USER), ]);
+            'username' => fullname($USER),
+            ]
+        );
     }
 
     /**
@@ -760,8 +849,10 @@ class local_rsync_section extends external_api {
         global $USER;
 
         // Check parameters.
-        $params = self::validate_parameters(self::create_section_parameters(),
-        ['courseid' => $courseid, 'sectionname' => $sectionname]);
+        $params = self::validate_parameters(
+            self::create_section_parameters(),
+            ['courseid' => $courseid, 'sectionname' => $sectionname]
+        );
 
         // Context validation.
         $context = \context_user::instance($USER->id);
@@ -779,9 +870,14 @@ class local_rsync_section extends external_api {
         course_update_section($courseid, $section, ['name' => $sectionname]);
 
          // Return the success message.
-         return get_string('successmessage_create_section', 'local_rsync',
-         ['sectionname' => $sectionname, 'sectionnumber' => $section->section,
-               'courseid' => $courseid, 'username' => fullname($USER), ]);
+         return get_string(
+             'successmessage_create_section',
+             'local_rsync',
+             ['sectionname' => $sectionname, 'sectionnumber' => $section->section,
+             'courseid' => $courseid,
+             'username' => fullname($USER),
+             ]
+         );
     }
 
     /**
@@ -797,8 +893,10 @@ class local_rsync_section extends external_api {
         global $DB, $USER;
 
         // Check parameters.
-        $params = self::validate_parameters(self::copy_all_section_modules_parameters(),
-        ['courseid' => $courseid, 'sectionnumber' => $sectionnumber, 'targetsectionnumber' => $targetsectionnumber]);
+        $params = self::validate_parameters(
+            self::copy_all_section_modules_parameters(),
+            ['courseid' => $courseid, 'sectionnumber' => $sectionnumber, 'targetsectionnumber' => $targetsectionnumber]
+        );
 
         // Check if the course is found. If not, throw exception.
         $course = $DB->get_record('course', ['id' => $courseid]);
@@ -815,15 +913,27 @@ class local_rsync_section extends external_api {
             // If module section is the same as the given section, duplicate it.
             if ($module->section == $sectionnumber) {
                 // Create a backup.
-                $bc = new backup_controller(backup::TYPE_1ACTIVITY, $module->cm,
-                        backup::FORMAT_MOODLE, backup::INTERACTIVE_NO, backup::MODE_IMPORT, $USER->id);
-                $backupid = $bc->get_backupid();;
+                $bc = new backup_controller(
+                    backup::TYPE_1ACTIVITY,
+                    $module->cm,
+                    backup::FORMAT_MOODLE,
+                    backup::INTERACTIVE_NO,
+                    backup::MODE_IMPORT,
+                    $USER->id
+                );
+                $backupid = $bc->get_backupid();
                 $bc->execute_plan();
                 $bc->destroy();
 
                 // And restore it.
-                $rc = new restore_controller($backupid, $courseid, backup::INTERACTIVE_NO,
-                            backup::MODE_IMPORT, $USER->id, backup::TARGET_CURRENT_ADDING);
+                $rc = new restore_controller(
+                    $backupid,
+                    $courseid,
+                    backup::INTERACTIVE_NO,
+                    backup::MODE_IMPORT,
+                    $USER->id,
+                    backup::TARGET_CURRENT_ADDING
+                );
                 $cmcontext = context_module::instance($module->cm);
                 $rc->execute_precheck();
                 $rc->execute_plan();
@@ -864,9 +974,14 @@ class local_rsync_section extends external_api {
         }
 
         // Return the success message.
-        return get_string('successmessage_copy_all_section_modules', 'local_rsync',
-        ['sectionnumber' => $sectionnumber, 'targetsectionnumber' => $targetsectionnumber,
-              'courseid' => $courseid, 'username' => fullname($USER), ]);
+        return get_string(
+            'successmessage_copy_all_section_modules',
+            'local_rsync',
+            ['sectionnumber' => $sectionnumber, 'targetsectionnumber' => $targetsectionnumber,
+            'courseid' => $courseid,
+            'username' => fullname($USER),
+            ]
+        );
     }
 
     /**
